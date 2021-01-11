@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <!-- 자동매핑 대상중 알수 없는 칼럼(이나 알수없는 프로퍼티 타입)을 발견했을때 행위를 명시 {* NONE, WARNING(경고), FAILING(예외)} -->
+        <setting name="autoMappingUnknownColumnBehavior" value="WARNING"/>
+        <!-- DB 칼럼명 A_COLUMN 을 CamelCase 형태인 aColumn 으로 매핑하도록 함 {* False, true} -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <typeAliases>
+        <typeAlias type="me.yh.dto.Member" alias="member" />
+        <typeAlias type="me.yh.dto.Post" alias="post"/>
+    </typeAliases>
+</configuration>

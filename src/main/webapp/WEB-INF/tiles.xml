@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+    <!-- 전체화면의 공통 레이아웃  -->
+    <definition name="layout"  template="/WEB-INF/views/layouts/layout.jsp">
+        <put-attribute name="title" value="" />
+        <put-attribute name="header" value="/WEB-INF/views/layouts/header.jsp" />
+        <put-attribute name="side" value="" />
+        <put-attribute name="main" value="" />
+        <put-attribute name="footer" value="/WEB-INF/views/layouts/footer.jsp" />
+    </definition>
+
+    <!-- 컨트로러에서 리턴한값을 매칭 -->
+    <definition name="index" extends="layout">
+        <put-attribute name="title" expression="${page_title}"/>
+        <put-attribute name="main" value="/WEB-INF/views/index.jsp" />
+    </definition>
+
+    <!-- 와일드카드
+    위처럼 모든 요청을 *로 받을수 있는데 단일로 *을 사용하면 에러날수도 있다.
+    index처럼 단일로 리턴할거면 root/index로 리턴하게하고
+    와일드 카드를 root/*로 하자 -->
+
+    <!--<definition name="/admin/*/*" extends="layout">
+        <put-attribute name="title" expression="${page_title}"/>
+        <put-attribute name="main" value="/WEB-INF/views/admin/{1}/{2}.jsp" />
+    </definition>-->
+
+</tiles-definitions>

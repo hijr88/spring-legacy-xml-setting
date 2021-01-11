@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.member">
+    <!-- Member 클래스 -->
+    <!-- 가지고 있는 date와 db 컬럼명이 다르므로 설정 -->
+    <resultMap id="memberResult" type="member">
+        <id property="no"   column="no" />
+        <id property="id"   column="id" />
+        <result property="name" column="NAME" />
+        <result property="password" column="password" />
+        <result property="date" column="CREATE_DATE" />
+        <collection property="posts" ofType="post" resultMap="postResult"/>
+    </resultMap>
+    <!-- Post 클래스 -->
+    <resultMap id="postResult" type="post">
+        <id property="id" column="p_no"/>
+        <result property="writer"   column="WRITER"/>
+        <result property="title" column="title"/>
+        <result property="createDate" column="p_date"/>
+    </resultMap>
+
+    <!--회원 전체 조회-->
+    <select id="findMembers" resultMap="memberResult">
+        select * from member
+    </select>
+
+    <!-- 아이디로 Post도 같이 조회 -->
+    <select id="findMemberById" resultMap="memberResult">
+        SELECT M.NO NO, ID, NAME, PASSWORD, M.CREATE_DATE CREATE_DATE,
+        P.NO P_NO, WRITER, TITLE, P.CREATE_DATE P_DATE
+        FROM MEMBER M LEFT JOIN POST P
+        ON M.ID = P.WRITER
+        WHERE M.ID = #{ID}
+    </select>
+
+    <!-- 추가 -->
+    <insert id="save">
+        insert into member(id,name,password) values(#{id},#{name},#{password})
+    </insert>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+        <context:component-scan base-package="me.yh.repository, me.yh.service" />
+
+        <!-- 외부 설정 읽어오기 -->
+        <bean id="propertyConfigure" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+                <property name="locations">
+                        <list>
+                                <value>classpath:config/jdbc.properties</value>
+                        </list>
+                </property>
+        </bean>
+
+        <!-- 히카리 -->
+        <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+                <property name="driverClassName" value="${jdbc.driverClassName}"/>
+                <property name="jdbcUrl" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+        </bean>
+
+        <!-- 마이바티스 설정 -->
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+                <property name="dataSource" ref="dataSource"/>
+                <property name="configLocation" value="classpath:mybatis/mapperConfig.xml"/> <!-- 설정파일 -->
+                <property name="mapperLocations" value="classpath:mybatis/mappers/*.xml"/> <!-- mapper 들 -->
+                <property name="typeAliasesPackage" value="me.yh.dto"/>   <!-- 패키지 탐색 -->
+        </bean>
+
+        <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+                <constructor-arg ref="sqlSessionFactory"/>
+        </bean>
+
+        <!-- 트랜잭션 설정 -->
+        <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+                <property name="dataSource" ref="dataSource"/>
+        </bean>
+
+        <!-- @Transactional 활성화 -->
+        <tx:annotation-driven/>
+
+        <task:executor id="myExecutor" pool-size="7-42" queue-capacity="11"/>
+        <task:scheduler id="scheduler" pool-size="10" />
+        <!-- @EnableAsync @EnableScheduling 활성화, 위 설정 없이 기본값으로도 사용가능-->
+        <task:annotation-driven executor="myExecutor" scheduler="scheduler"/>
+
+        <!--<bean id="homeRepository" class="me.yh.repository.HomeRepository">
+            <constructor-arg name="number1" value="8"/>
+            <constructor-arg name="number2" value="5"/>
+        </bean>
+
+        <bean id="homeService" class="me.yh.service.HomeService">
+            <constructor-arg name="homeRepository" ref="homeRepository"/>
+        </bean>-->
+</beans>

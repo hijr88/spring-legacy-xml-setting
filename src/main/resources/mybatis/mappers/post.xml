@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.post">
+    <!-- Post 클래스 -->
+    <resultMap id="postResult" type="post">
+        <id property="id" column="no"/>
+        <result property="writer"   column="WRITER"/>
+        <result property="title" column="title"/>
+        <result property="createDate" column="CREATE_DATE"/>
+    </resultMap>
+
+    <!-- 전체 조회-->
+    <select id="findPosts" resultMap="postResult">
+        select * from post
+    </select>
+
+    <!-- ID로 조회 -->
+    <select id="findPostById" resultMap="postResult">
+        select * from post where no = #{id}
+    </select>
+</mapper>
