@@ -6,9 +6,17 @@
 
     <!-- ContextLoader 에서 param 문자열 확인 -->
     <!-- web 과는 관련이 없는 repository service 만 등록한다 -->
-    <context-param> <!-- 스프링 설정파일 위치 -->
+    <!--<context-param> &lt;!&ndash; 스프링 설정파일 위치 &ndash;&gt;
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/spring/root-context.xml</param-value>
+    </context-param>-->
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+    </context-param>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>me.yh.config.RootConfig</param-value>
     </context-param>
 
     <!-- 스프링 IOC 컨테이너, 애플리케이션 컨텍스트를 서블릿 생명주기에 맞춰서 바인딩해줌 -->

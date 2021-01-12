@@ -1,4 +1,5 @@
 # spring-legacy-xml-setting
+### xml로 시작해서 java로 변경하기
 # h2 - mybatis
 
 ```shell script

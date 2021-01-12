@@ -43,7 +43,7 @@ public class HomeService {
         run.run();
     }
 
-    //@Scheduled(cron="*/5 * * * * *") // 5초 간격 실행
+    @Scheduled(cron="*/5 * * * * *") // 5초 간격 실행
     public void print() {
         System.out.println(LocalDateTime.now());
     }
